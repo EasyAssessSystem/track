@@ -32,7 +32,7 @@ public class MultiTenantMongoDbFactory extends SimpleMongoDbFactory {
     @Override
     public DB getDb() {
         final String tlName = TenantContext.getCurrentTenant();
-        final String dbToUse = (tlName != null ? tlName : this.defaultName);
+        final String dbToUse = this.defaultName;
         createIndexIfNecessaryFor(dbToUse);
         return super.getDb(dbToUse);
     }

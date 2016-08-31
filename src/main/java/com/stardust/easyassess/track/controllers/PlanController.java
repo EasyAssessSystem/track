@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping({"{domain}/track/plan"})
+@RequestMapping({"{domain}/iqc/plan"})
 @EnableAutoConfiguration
 public class PlanController extends MaintenanceController<Plan> {
     @Autowired
@@ -66,25 +66,5 @@ public class PlanController extends MaintenanceController<Plan> {
     @Override
     protected EntityService<Plan> getService() {
         return getApplicationContext().getBean(PlanService.class);
-    }
-
-    @RequestMapping(path="/mine/activated/list",
-            method={RequestMethod.GET})
-    public ViewJSONWrapper listActivated(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                @RequestParam(value = "size", defaultValue = "4") Integer size,
-                                @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                @RequestParam(value = "filterField", defaultValue = "") String field,
-                                @RequestParam(value = "filterValue", defaultValue = "") String value ) throws MinistryOnlyException {
-
-        List<Selection> selections = new ArrayList();
-        selections.add(new Selection(field, Selection.Operator.LIKE, value));
-        selections.add(new Selection("status", Selection.Operator.EQUAL, "A"));
-        Owner owner = getNullableOwner();
-        if (owner != null) {
-            selections.add(new Selection("participants." + owner.getId(), Selection.Operator.EXSITS, true));
-            return new ViewJSONWrapper(getService().list(page, size , sort, selections));
-        } else {
-            return new ViewJSONWrapper(null);
-        }
     }
 }

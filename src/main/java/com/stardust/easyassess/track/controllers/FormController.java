@@ -19,7 +19,7 @@ import java.util.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping({"{domain}/track/form"})
+@RequestMapping({"{domain}/iqc/form"})
 @EnableAutoConfiguration
 public class FormController extends MaintenanceController<Form> {
     @Autowired
@@ -30,13 +30,13 @@ public class FormController extends MaintenanceController<Form> {
         return getApplicationContext().getBean(FormService.class);
     }
 
-    @RequestMapping(path="/submit/{id}",
-            method={RequestMethod.PUT})
+    @RequestMapping(path = "/submit/{id}",
+            method = {RequestMethod.PUT})
     public ViewJSONWrapper submit(@PathVariable String id, @RequestBody FormData data) throws MinistryOnlyException {
         Form form = getOwnerFormById(id);
         form.setValues(data.getValues());
         form.setCodes(data.getCodes());
-        ((FormService)getService()).submit(form);
+        ((FormService) getService()).submit(form);
         return new ViewJSONWrapper(form);
     }
 
@@ -46,14 +46,20 @@ public class FormController extends MaintenanceController<Form> {
         return new ViewJSONWrapper(form);
     }
 
-    @RequestMapping(path="/submitted/list",
-            method={RequestMethod.GET})
+    @RequestMapping(path = "/{plan}/{owner}/list",
+            method = {RequestMethod.GET})
     public ViewJSONWrapper getClosedForms(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                         @RequestParam(value = "size", defaultValue = "4") Integer size,
-                                         @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                         @RequestParam(value = "filterField", defaultValue = "") String field,
-                                         @RequestParam(value = "filterValue", defaultValue = "") String value ) throws MinistryOnlyException {
-        return buildFormList("C", page, size, sort, field, value);
+                                          @RequestParam(value = "size", defaultValue = "4") Integer size,
+                                          @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                          @RequestParam(value = "filterField", defaultValue = "") String field,
+                                          @RequestParam(value = "filterValue", defaultValue = "") String value,
+                                          @PathVariable String plan,
+                                          @PathVariable String owner) throws MinistryOnlyException {
+        List<Selection> selections = new ArrayList();
+        selections.add(new Selection(field, Selection.Operator.LIKE, value));
+        selections.add(new Selection("plan.id", Selection.Operator.EQUAL, plan));
+        selections.add(new Selection("owner", Selection.Operator.EQUAL, owner));
+        return new ViewJSONWrapper(getService().list(page, size, sort, selections));
     }
 
     private Form getOwnerFormById(String id) throws MinistryOnlyException {
@@ -65,15 +71,5 @@ public class FormController extends MaintenanceController<Form> {
             }
         }
         return form;
-    }
-
-    private ViewJSONWrapper buildFormList(String status, Integer page, Integer size, String sort, String field, String value) throws MinistryOnlyException {
-        List<Selection> selections = new ArrayList();
-        selections.add(new Selection(field, Selection.Operator.LIKE, value));
-        selections.add(new Selection("status", Selection.Operator.EQUAL, status));
-        if (getOwner() != null) {
-            selections.add(new Selection("owner", Selection.Operator.EQUAL, getOwner().getId()));
-        }
-        return new ViewJSONWrapper(getService().list(page, size , sort, selections));
     }
 }

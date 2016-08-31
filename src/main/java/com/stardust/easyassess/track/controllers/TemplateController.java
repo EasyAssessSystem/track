@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping({"{domain}/track/template"})
+@RequestMapping({"{domain}/iqc/template"})
 @EnableAutoConfiguration
 public class TemplateController extends MaintenanceController<FormTemplate> {
     @Override
