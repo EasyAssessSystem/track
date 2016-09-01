@@ -10,8 +10,8 @@ public class GroupRow extends FormElement {
 	private String guid;
 	
 	private TestSubject item;
-	
-	private List<OptionValue> options = new ArrayList();
+
+	private Map<String, OptionValue> optionMap = new HashMap();
 
 	public String getGuid() {
 		return guid;
@@ -29,11 +29,11 @@ public class GroupRow extends FormElement {
 		this.item = item;
 	}
 
-	public List<OptionValue> getOptions() {
-		return options;
+	public Map<String, OptionValue> getOptionMap() {
+		return optionMap;
 	}
 
-	public void setOptions(List<OptionValue> options) {
-		this.options = options;
+	public void setOptionMap(Map<String, OptionValue> optionMap) {
+		this.optionMap = optionMap;
 	}
 }

@@ -48,7 +48,7 @@ public class FormController extends MaintenanceController<Form> {
 
     @RequestMapping(path = "/{plan}/{owner}/list",
             method = {RequestMethod.GET})
-    public ViewJSONWrapper getClosedForms(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ViewJSONWrapper getFormsByPlan(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                           @RequestParam(value = "size", defaultValue = "4") Integer size,
                                           @RequestParam(value = "sort", defaultValue = "id") String sort,
                                           @RequestParam(value = "filterField", defaultValue = "") String field,

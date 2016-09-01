@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.controllers;
 
 
+import com.stardust.easyassess.core.exception.ESAppException;
 import com.stardust.easyassess.track.models.Plan;
 import com.stardust.easyassess.track.models.Owner;
 import com.stardust.easyassess.track.models.form.Specimen;
@@ -61,6 +62,13 @@ public class PlanController extends MaintenanceController<Plan> {
         model.setOwner(owner.getId());
         model.setOwnerName(owner.getName());
         return super.preUpdate(id, model);
+    }
+
+
+    @RequestMapping(path = "/{participant}/list",
+            method = {RequestMethod.GET})
+    public ViewJSONWrapper getPlansParticipant(@PathVariable String participant) throws ESAppException {
+        return new ViewJSONWrapper(((PlanService)getService()).getParticipantPlanList(participant));
     }
 
     @Override
