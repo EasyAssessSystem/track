@@ -28,14 +28,12 @@ public class FormController extends MaintenanceController<Form> {
         return getApplicationContext().getBean(FormService.class);
     }
 
-    @RequestMapping(path = "/submit/{id}",
-            method = {RequestMethod.PUT})
-    public ViewJSONWrapper submit(@PathVariable String id, @RequestBody FormData data) throws MinistryOnlyException {
-        Form form = getOwnerFormById(id);
-        form.setValues(data.getValues());
-        form.setCodes(data.getCodes());
-        ((FormService) getService()).submit(form);
-        return new ViewJSONWrapper(form);
+    @Override
+    protected boolean preAdd(Form model) throws MinistryOnlyException {
+        model.setOwner(getOwner().getId());
+        model.setSubmitDate(new Date());
+        model.setStatus("A");
+        return true;
     }
 
     @Override
