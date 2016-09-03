@@ -52,12 +52,20 @@ public class FormController extends MaintenanceController<Form> {
                                           @RequestParam(value = "sort", defaultValue = "id") String sort,
                                           @RequestParam(value = "filterField", defaultValue = "") String field,
                                           @RequestParam(value = "filterValue", defaultValue = "") String value,
+                                          @RequestParam(value = "startDate", defaultValue = "") String startDate,
+                                          @RequestParam(value = "endDate", defaultValue = "") String endDate,
                                           @PathVariable String plan,
                                           @PathVariable String owner) throws MinistryOnlyException {
         List<Selection> selections = new ArrayList();
         selections.add(new Selection(field, Selection.Operator.LIKE, value));
         selections.add(new Selection("plan.id", Selection.Operator.EQUAL, plan));
         selections.add(new Selection("owner", Selection.Operator.EQUAL, owner));
+        if (!startDate.isEmpty()) {
+            selections.add(new Selection("submitDate", Selection.Operator.GREATER_EQUAL, getDateFromString(startDate)));
+        }
+        if (!endDate.isEmpty()) {
+            selections.add(new Selection("submitDate", Selection.Operator.LESS_EQUAL, getDateFromString(endDate)));
+        }
         return new ViewJSONWrapper(getService().list(page, size, sort, selections));
     }
 
