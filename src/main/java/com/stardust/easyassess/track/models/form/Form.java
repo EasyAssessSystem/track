@@ -78,7 +78,10 @@ public class Form extends FormElement {
     }
 
     public String getOwnerName() {
-        return plan.getParticipants().get(this.getOwner());
+        if (plan != null && plan.getParticipants() != null && !plan.getParticipants().isEmpty()) {
+            return plan.getParticipants().get(this.getOwner());
+        }
+        return null;
     }
 
     public String getFormName() {

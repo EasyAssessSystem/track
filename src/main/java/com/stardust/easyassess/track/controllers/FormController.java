@@ -30,10 +30,13 @@ public class FormController extends MaintenanceController<Form> {
 
     @Override
     protected boolean preAdd(Form model) throws MinistryOnlyException {
-        model.setOwner(getOwner().getId());
-        model.setSubmitDate(new Date());
-        model.setStatus("A");
-        return true;
+        if (model.getPlan() != null && model.getId() == null) {
+            model.setOwner(getOwner().getId());
+            model.setSubmitDate(new Date());
+            model.setStatus("A");
+            return true;
+        }
+        return false;
     }
 
     @Override
