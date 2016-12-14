@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"{domain}/iqc/template"})
+@RequestMapping({"{domain}/deprecated/iqc/template"})
 @EnableAutoConfiguration
 public class TemplateController extends MaintenanceController<FormTemplate> {
     @Override

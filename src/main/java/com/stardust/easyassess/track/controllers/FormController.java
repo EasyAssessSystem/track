@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping({"{domain}/iqc/form"})
+@RequestMapping({"{domain}/deprecated/iqc/form"})
 @EnableAutoConfiguration
 public class FormController extends MaintenanceController<Form> {
     @Autowired

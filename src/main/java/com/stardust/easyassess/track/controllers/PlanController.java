@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping({"{domain}/iqc/plan"})
+@RequestMapping({"{domain}/deprecated/iqc/plan"})
 @EnableAutoConfiguration
 public class PlanController extends MaintenanceController<Plan> {
     @Autowired
