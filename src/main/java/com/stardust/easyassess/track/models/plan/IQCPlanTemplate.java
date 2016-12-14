@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.models.plan;
 
 import com.stardust.easyassess.track.models.DataModel;
+import com.stardust.easyassess.track.models.Owner;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,8 @@ import java.util.List;
 public class IQCPlanTemplate extends DataModel {
     @Id
     private String id;
+
+    private Owner owner;
 
     private String name;
 
@@ -38,5 +41,13 @@ public class IQCPlanTemplate extends DataModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
