@@ -4,6 +4,10 @@ public class Owner extends DataModel {
     private String id;
     private String name;
 
+    public Owner() {
+
+    }
+
     public Owner(String id, String name) {
         this.id = id;
         this.name = name;
@@ -23,5 +27,12 @@ public class Owner extends DataModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Owner)) return false;
+        if (((Owner) o).getId().equals(this.getId())) return true;
+        return false;
     }
 }
