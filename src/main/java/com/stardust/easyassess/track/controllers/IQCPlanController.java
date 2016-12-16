@@ -6,6 +6,7 @@ import com.stardust.easyassess.core.presentation.ViewJSONWrapper;
 import com.stardust.easyassess.core.query.Selection;
 import com.stardust.easyassess.track.models.Owner;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
+import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.services.EntityService;
 import com.stardust.easyassess.track.services.IQCPlanService;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +66,17 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
             selections.add(new Selection("owner", Selection.Operator.IS_NULL, null, Selection.Operand.OR));
         }
         return true;
+    }
+
+    @RequestMapping(path="/{id}/record",
+            method={RequestMethod.POST})
+    public ViewJSONWrapper createRecord(@PathVariable String id, @RequestBody IQCPlanRecord record) throws ESAppException, ParseException {
+        return new ViewJSONWrapper(((IQCPlanService)getService()).submitRecord(id, record, getOwner()));
+    }
+
+    @RequestMapping(path="/{id}/record",
+            method={RequestMethod.GET})
+    public ViewJSONWrapper getTodayRecord(@PathVariable String id) throws ESAppException, ParseException {
+        return new ViewJSONWrapper(((IQCPlanService)getService()).getTodayRecord(id));
     }
 }

@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,12 +49,18 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     }
 
     @Override
-    public IQCPlanRecord submitRecord(String planId, IQCPlanRecord record, Owner owner) {
+    public IQCPlanRecord submitRecord(String planId, IQCPlanRecord record, Owner owner) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = formatter.parse(formatter.format(new Date()));
         IQCPlan plan = iqcPlanRepository.findOne(planId);
+        IQCPlanRecord todayRecord = getTodayRecord(planId);
+        if (todayRecord != null) {
+            record.setId(todayRecord.getId());
+        }
         record.setPlan(plan);
         record.setOwner(owner);
         record.setName(plan.getName());
-        record.setDate(new Date());
+        record.setDate(today);
         return iqcPlanRecordRepository.save(record);
     }
 
@@ -60,7 +69,20 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(targetDate);
         calendar.add(Calendar.DAY_OF_MONTH, 30);
-        return iqcPlanRecordRepository.getRecordsByDateAndPlanId(targetDate, calendar.getTime(), planId);
+        return iqcPlanRecordRepository.findRecordsByPlanId(targetDate, calendar.getTime(), planId);
+    }
+
+    @Override
+    public IQCPlanRecord getTodayRecord(String planId) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = formatter.parse(formatter.format(new Date()));
+
+        List<IQCPlanRecord> records = iqcPlanRecordRepository.findRecordsByPlanId(today, today, planId);
+        if (records != null && !records.isEmpty()) {
+            return records.get(0);
+        }
+
+        return null;
     }
 
     @Override
