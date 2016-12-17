@@ -14,10 +14,14 @@ import com.stardust.easyassess.track.services.IQCPlanTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -78,5 +82,19 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
             method={RequestMethod.GET})
     public ViewJSONWrapper getTodayRecord(@PathVariable String id) throws ESAppException, ParseException {
         return new ViewJSONWrapper(((IQCPlanService)getService()).getTodayRecord(id));
+    }
+
+    @RequestMapping(path="/{id}/records",
+            method={RequestMethod.GET})
+    public ViewJSONWrapper getRecordsWithinTargetDate(@PathVariable String id,
+                                                      @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
+                                                      @RequestParam(name = "count", defaultValue = "20") Integer count) throws ESAppException, ParseException {
+
+        Date target = new Date();
+        if (!targetDate.isEmpty()) {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            target = formatter.parse(targetDate);
+        }
+        return new ViewJSONWrapper(((IQCPlanService)getService()).getRecords(id, target, count));
     }
 }

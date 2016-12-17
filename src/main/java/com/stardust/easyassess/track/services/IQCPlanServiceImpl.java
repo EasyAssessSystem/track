@@ -66,10 +66,15 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
 
     @Override
     public List<IQCPlanRecord> getRecords(String planId, Date targetDate) {
+        return getRecords(planId, targetDate, 30);
+    }
+
+    @Override
+    public List<IQCPlanRecord> getRecords(String planId, Date targetDate, int count) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(targetDate);
-        calendar.add(Calendar.DAY_OF_MONTH, 30);
-        return iqcPlanRecordRepository.findRecordsByPlanId(targetDate, calendar.getTime(), planId);
+        calendar.add(Calendar.DAY_OF_MONTH, -count);
+        return iqcPlanRecordRepository.findRecordsByPlanId(calendar.getTime(), targetDate, planId);
     }
 
     @Override

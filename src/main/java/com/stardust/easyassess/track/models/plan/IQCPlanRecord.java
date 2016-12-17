@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.models.plan;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stardust.easyassess.track.models.DataModel;
 import com.stardust.easyassess.track.models.Owner;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -37,6 +38,7 @@ public class IQCPlanRecord extends DataModel {
         this.date = date;
     }
 
+    @JsonIgnore
     public Owner getOwner() {
         return owner;
     }
