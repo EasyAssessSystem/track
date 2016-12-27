@@ -22,6 +22,9 @@ public class IQCPlan extends DataModel {
     @DBRef(lazy = true)
     private List<IQCPlanRecord> records = new ArrayList();
 
+    @DBRef(lazy = true)
+    private IQCPlanTemplate template;
+
     private List<IQCPlanItem> items = new ArrayList();
 
     public IQCPlan() {
@@ -32,6 +35,16 @@ public class IQCPlan extends DataModel {
         this.owner = owner;
         this.name = template.getName();
         this.items = template.getItems();
+        this.template = template;
+    }
+
+    @JsonIgnore
+    public IQCPlanTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(IQCPlanTemplate template) {
+        this.template = template;
     }
 
     public Owner getOwner() {

@@ -5,8 +5,10 @@ import com.stardust.easyassess.track.models.Owner;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Embedded;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Document(collection = "plan_templates")
 public class IQCPlanTemplate extends DataModel {
@@ -16,6 +18,9 @@ public class IQCPlanTemplate extends DataModel {
     private Owner owner;
 
     private String name;
+
+    @Embedded
+    private Map<String, String> participants;
 
     private List<IQCPlanItem> items = new ArrayList();
 
@@ -49,5 +54,13 @@ public class IQCPlanTemplate extends DataModel {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public Map<String, String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Map<String, String> participants) {
+        this.participants = participants;
     }
 }
