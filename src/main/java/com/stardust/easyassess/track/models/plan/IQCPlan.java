@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.models.plan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.stardust.easyassess.track.models.DataModel;
 import com.stardust.easyassess.track.models.Owner;
 import org.springframework.data.annotation.Id;
@@ -43,6 +44,7 @@ public class IQCPlan extends DataModel {
         return template;
     }
 
+    @JsonProperty
     public void setTemplate(IQCPlanTemplate template) {
         this.template = template;
     }

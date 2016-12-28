@@ -57,9 +57,15 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         if (plan != null) {
             model.setId(id);
             model.setOwner(plan.getOwner());
+            model.setTemplate(plan.getTemplate());
             model.setRecords(plan.getRecords());
         }
         return super.preUpdate(id, model);
+    }
+
+    @Override
+    protected void postDelete(String id) {
+
     }
 
     @Override
