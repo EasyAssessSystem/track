@@ -22,6 +22,8 @@ public class IQCPlanTemplate extends DataModel {
     @Embedded
     private Map<String, String> participants;
 
+    private List<String> additionalData = new ArrayList();
+
     private List<IQCPlanItem> items = new ArrayList();
 
     public List<IQCPlanItem> getItems() {
@@ -54,6 +56,14 @@ public class IQCPlanTemplate extends DataModel {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public List<String> getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(List<String> additionalData) {
+        this.additionalData = additionalData;
     }
 
     public Map<String, String> getParticipants() {

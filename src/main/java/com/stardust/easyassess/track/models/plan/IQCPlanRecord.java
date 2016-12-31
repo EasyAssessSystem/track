@@ -8,9 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Document(collection = "records")
 public class IQCPlanRecord extends DataModel {
@@ -30,12 +28,22 @@ public class IQCPlanRecord extends DataModel {
 
     private List<IQCPlanItem> items = new ArrayList();
 
+    private Map<String, String> additionalData = new HashMap();
+
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Map<String, String> getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(Map<String, String> additionalData) {
+        this.additionalData = additionalData;
     }
 
     @JsonIgnore
