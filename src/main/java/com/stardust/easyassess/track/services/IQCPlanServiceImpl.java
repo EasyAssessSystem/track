@@ -66,7 +66,7 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
 
     @Override
     public List<IQCPlanRecord> getRecords(String planId, Date targetDate) {
-        return getRecords(planId, targetDate, 30);
+        return getRecords(planId, targetDate, 20);
     }
 
     @Override

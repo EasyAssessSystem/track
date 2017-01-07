@@ -1,17 +1,23 @@
 package com.stardust.easyassess.track.services;
 
 
+import com.stardust.easyassess.core.query.Selection;
 import com.stardust.easyassess.track.dao.repositories.DataRepository;
+import com.stardust.easyassess.track.dao.repositories.IQCPlanRecordRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanTemplateRepository;
 import com.stardust.easyassess.track.models.Owner;
+import com.stardust.easyassess.track.models.Plan;
+import com.stardust.easyassess.track.models.plan.IQCHistorySet;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
+import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @Scope("request")
@@ -53,5 +59,18 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
         }
 
         return template;
+    }
+
+    @Override
+    public List<IQCHistorySet> getRecordsWithPlans(List<IQCPlan> plans, Date targetDate) {
+        List<IQCHistorySet> results = new ArrayList();
+        for (IQCPlan plan : plans) {
+            IQCHistorySet result = new IQCHistorySet();
+            result.setOwner(plan.getOwner());
+            result.setPlanName(plan.getName());
+            result.setTargetRecords(iqcPlanService.getRecords(plan.getId(), targetDate, 20));
+            results.add(result);
+        }
+        return results;
     }
 }

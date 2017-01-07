@@ -71,6 +71,7 @@ public class IQCPlanRecord extends DataModel {
         this.name = name;
     }
 
+    @JsonIgnore
     public IQCPlan getPlan() {
         return plan;
     }
