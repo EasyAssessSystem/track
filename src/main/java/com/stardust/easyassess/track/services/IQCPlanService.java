@@ -19,4 +19,5 @@ public interface IQCPlanService extends EntityService<IQCPlan> {
     List<IQCPlanRecord> getRecords(String planId, Date targetDate, int count);
     IQCPlanRecord getTodayRecord(String planId) throws ParseException;
     Page<IQCPlan> getPlansByOwner(Owner owner, int page, int size, String sortBy);
+    void updateOwnerName(Owner owner);
 }

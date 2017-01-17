@@ -98,6 +98,15 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     }
 
     @Override
+    public void updateOwnerName(Owner owner) {
+        List<IQCPlan> plans = iqcPlanRepository.findPlansByOwnerId(owner.getId());
+        for (IQCPlan plan : plans) {
+            plan.getOwner().setName(owner.getName());
+            iqcPlanRepository.save(plan);
+        }
+    }
+
+    @Override
     protected DataRepository<IQCPlan, String> getRepository() {
         return iqcPlanRepository;
     }

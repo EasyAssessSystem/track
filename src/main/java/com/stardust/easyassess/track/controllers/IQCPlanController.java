@@ -78,6 +78,13 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         return true;
     }
 
+    @RequestMapping(path="/owner",
+            method={RequestMethod.PUT})
+    public ViewJSONWrapper updateOwner(@RequestBody Owner owner) throws ESAppException, ParseException {
+        ((IQCPlanService)getService()).updateOwnerName(owner);
+        return new ViewJSONWrapper(owner);
+    }
+
     @RequestMapping(path="/{id}/record",
             method={RequestMethod.POST})
     public ViewJSONWrapper createRecord(@PathVariable String id, @RequestBody IQCPlanRecord record) throws ESAppException, ParseException {

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
+
 public interface IQCPlanRepository extends DataRepository<IQCPlan, String> {
     default Class<IQCPlan> getEntityClass() {
         return IQCPlan.class;
@@ -12,4 +13,7 @@ public interface IQCPlanRepository extends DataRepository<IQCPlan, String> {
 
     @Query("{templateId:{$eq:?0}}")
     List<IQCPlan> findPlansByTemplateId(String planId);
+
+    @Query("{owner.id:{$eq:?0}}")
+    List<IQCPlan> findPlansByOwnerId(String ownerId);
 }
