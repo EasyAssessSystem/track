@@ -2,6 +2,8 @@ package com.stardust.easyassess.track.conf;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.stardust.easyassess.track.dao.router.MultiTenantMongoDbFactory;
 import com.stardust.easyassess.track.dao.router.TenantContext;
 import com.stardust.easyassess.core.context.ContextSession;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @PropertySource("classpath:application.properties")
@@ -31,6 +35,12 @@ public class TrackAppConf {
     @Value("${track.db.server}")
     private String dbServer;
 
+    @Value("${track.db.user}")
+    private String dbUser;
+
+    @Value("${track.db.password}")
+    private String dbPassword;
+
     @Bean
     public MongoTemplate mongoTemplate(final Mongo mongo) throws Exception {
         return new MongoTemplate(mongoDbFactory(mongo));
@@ -43,7 +53,15 @@ public class TrackAppConf {
 
     @Bean
     public Mongo mongo() throws Exception {
-        return new MongoClient(dbServer);
+        if (dbUser == null || dbUser.isEmpty()) {
+            return new MongoClient(dbServer);
+        }
+        List<ServerAddress> hosts = new ArrayList();
+        List<MongoCredential> credentials = new ArrayList();
+        hosts.add(new ServerAddress(dbServer, 3717));
+        credentials.add(MongoCredential.createCredential(dbUser, defaultDB, dbPassword.toCharArray()));
+        Mongo mongo = new MongoClient(hosts, credentials);
+        return mongo;
     }
 
     @Autowired
