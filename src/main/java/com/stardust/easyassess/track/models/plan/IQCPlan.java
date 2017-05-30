@@ -28,7 +28,7 @@ public class IQCPlan extends DataModel {
 
     private List<IQCPlanItem> items = new ArrayList();
 
-    private List<String> additionalData = new ArrayList();
+    private List<AdditionalItem> additionalItems = new ArrayList();
 
     public IQCPlan() {
 
@@ -39,15 +39,15 @@ public class IQCPlan extends DataModel {
         this.name = template.getName();
         this.items = template.getItems();
         this.template = template;
-        this.additionalData = template.getAdditionalData();
+        this.additionalItems = template.getAdditionalItems();
     }
 
-    public List<String> getAdditionalData() {
-        return additionalData;
+    public List<AdditionalItem> getAdditionalItems() {
+        return additionalItems;
     }
 
-    public void setAdditionalData(List<String> additionalData) {
-        this.additionalData = additionalData;
+    public void setAdditionalItems(List<AdditionalItem> additionalItems) {
+        this.additionalItems = additionalItems;
     }
 
     @JsonIgnore

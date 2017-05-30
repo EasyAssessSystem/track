@@ -22,7 +22,7 @@ public class IQCPlanTemplate extends DataModel {
     @Embedded
     private Map<String, String> participants;
 
-    private List<String> additionalData = new ArrayList();
+    private List<AdditionalItem> additionalItems = new ArrayList();
 
     private List<IQCPlanItem> items = new ArrayList();
 
@@ -58,12 +58,12 @@ public class IQCPlanTemplate extends DataModel {
         this.owner = owner;
     }
 
-    public List<String> getAdditionalData() {
-        return additionalData;
+    public List<AdditionalItem> getAdditionalItems() {
+        return additionalItems;
     }
 
-    public void setAdditionalData(List<String> additionalData) {
-        this.additionalData = additionalData;
+    public void setAdditionalItems(List<AdditionalItem> additionalItems) {
+        this.additionalItems = additionalItems;
     }
 
     public Map<String, String> getParticipants() {
