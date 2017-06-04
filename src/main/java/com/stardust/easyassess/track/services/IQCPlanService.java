@@ -2,22 +2,38 @@ package com.stardust.easyassess.track.services;
 
 
 import com.stardust.easyassess.track.models.Owner;
+import com.stardust.easyassess.track.models.plan.AdditionalItem;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
 import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticComparisonModel;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSet;
 import org.springframework.data.domain.Page;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface IQCPlanService extends EntityService<IQCPlan> {
     IQCPlan copyFromTemplate(IQCPlanTemplate template, Owner owner);
     IQCPlan copyFromTemplate(String templateId, Owner owner);
-    IQCPlanRecord submitRecord(String planId, IQCPlanRecord record, Owner owner) throws ParseException;
+    IQCPlanRecord submitRecord(Date date, String planId, IQCPlanRecord record, Owner owner) throws ParseException;
     List<IQCPlanRecord> getRecords(String planId, Date targetDate);
     List<IQCPlanRecord> getRecords(String planId, Date targetDate, int count);
     IQCPlanRecord getTodayRecord(String planId) throws ParseException;
     Page<IQCPlan> getPlansByOwner(Owner owner, int page, int size, String sortBy);
     void updateOwnerName(Owner owner);
+    IQCHistoryStatisticComparisonModel getPeriodStatisticComparison(String planId,
+                                                                    Date targetDate,
+                                                                    int count,
+                                                                    Map<String, String> filters);
+    IQCHistoryStatisticSet getPeriodStatistic(List<IQCPlan> plans,
+                                              Date targetDate,
+                                              int count,
+                                              Map<String, String> filters);
+    IQCHistoryStatisticSet getPeriodStatistic(IQCPlan plan,
+                                              Date targetDate,
+                                              int count,
+                                              Map<String, String> filters);
 }
