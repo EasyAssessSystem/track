@@ -53,9 +53,20 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
     public IQCPlanTemplate save(IQCPlanTemplate model) {
         IQCPlanTemplate template = getRepository().save(model);
 
-        for (String ownerId : model.getParticipants().keySet()) {
-            Owner owner = new Owner(ownerId, model.getParticipants().get(ownerId));
-            iqcPlanService.copyFromTemplate(template, owner);
+        List<IQCPlan> plans = iqcPlanRepository.findPlansByTemplateId(model.getId());
+        if (plans.size() > 0) {
+            for (IQCPlan plan : plans) {
+                plan.setName(template.getName());
+                plan.setItems(template.getItems());
+                plan.setAdditionalItems(template.getAdditionalItems());
+                plan.setVersion(plan.getVersion() + 1);
+                iqcPlanService.save(plan);
+            }
+        } else {
+            for (String ownerId : model.getParticipants().keySet()) {
+                Owner owner = new Owner(ownerId, model.getParticipants().get(ownerId));
+                iqcPlanService.copyFromTemplate(template, owner);
+            }
         }
 
         return template;

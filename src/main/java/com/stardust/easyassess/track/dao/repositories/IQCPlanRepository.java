@@ -16,4 +16,7 @@ public interface IQCPlanRepository extends DataRepository<IQCPlan, String> {
 
     @Query("{owner.id:{$eq:?0}}")
     List<IQCPlan> findPlansByOwnerId(String ownerId);
+
+    @Query("{owner.id:{$eq:?0}, templateId:{$eq:?1}}")
+    IQCPlan findPlanByOwnerIdAndTemplateId(String ownerId, String templateId);
 }

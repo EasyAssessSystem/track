@@ -30,6 +30,16 @@ public class IQCPlanRecord extends DataModel {
 
     private Map<String, String> additionalData = new HashMap();
 
+    private int version = 0;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public Date getDate() {
         return date;
     }

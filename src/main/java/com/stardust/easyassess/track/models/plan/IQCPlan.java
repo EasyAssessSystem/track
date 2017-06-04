@@ -30,6 +30,8 @@ public class IQCPlan extends DataModel {
 
     private List<AdditionalItem> additionalItems = new ArrayList();
 
+    private int version = 0;
+
     public IQCPlan() {
 
     }
@@ -40,6 +42,14 @@ public class IQCPlan extends DataModel {
         this.items = template.getItems();
         this.template = template;
         this.additionalItems = template.getAdditionalItems();
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public List<AdditionalItem> getAdditionalItems() {

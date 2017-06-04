@@ -56,6 +56,7 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         if (todayRecord != null) {
             record.setId(todayRecord.getId());
         }
+        record.setVersion(plan.getVersion());
         record.setPlan(plan);
         record.setOwner(owner);
         record.setName(plan.getName());
