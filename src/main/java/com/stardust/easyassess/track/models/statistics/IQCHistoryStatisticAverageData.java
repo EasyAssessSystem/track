@@ -23,7 +23,13 @@ public class IQCHistoryStatisticAverageData extends IQCHistoryStatisticData {
 
     @Override
     public void proceed(IQCPlanSpecimen item) {
-        total += Double.parseDouble(item.getValue());
-        count += 1;
+        try {
+            if (item.getValue() != null) {
+                total += Double.parseDouble(item.getValue());
+                count += 1;
+            }
+        } catch (Exception e) {
+
+        }
     }
 }
