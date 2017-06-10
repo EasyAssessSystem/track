@@ -120,6 +120,7 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         if (filters == null) return false;
         for (String additionalDataName : filters.keySet()) {
             String additionalDataValue = filters.get(additionalDataName);
+            if (additionalDataValue == null || additionalDataValue.isEmpty()) continue;
             if (!record.getAdditionalData().containsKey(additionalDataName)
                     || !additionalDataValue.equals(record.getAdditionalData().get(additionalDataName))) {
                 return true;
