@@ -12,6 +12,7 @@ public class IQCHistoryStatisticAverageData extends IQCHistoryStatisticData {
         return total;
     }
 
+    @Override
     public Long getCount() {
         return count;
     }
@@ -31,5 +32,12 @@ public class IQCHistoryStatisticAverageData extends IQCHistoryStatisticData {
         } catch (Exception e) {
 
         }
+    }
+
+    @Override
+    public String toString() {
+        String result = "平均数据:"
+                + getAverageValue();
+        return result;
     }
 }

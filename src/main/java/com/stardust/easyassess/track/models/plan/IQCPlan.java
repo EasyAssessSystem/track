@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "plans")
-public class IQCPlan extends DataModel {
+public class IQCPlan extends DataModel implements IQCSubjectSpecimenMatrix {
     @Id
     private String id;
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Document(collection = "plan_templates")
-public class IQCPlanTemplate extends DataModel {
+public class IQCPlanTemplate extends DataModel implements IQCSubjectSpecimenMatrix {
     @Id
     private String id;
 

@@ -74,7 +74,11 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
             records.addAll(getRecords(plan.getId(), targetDate, count));
         }
 
-        return calculateStatisticDataSet(records, filters);
+        IQCHistoryStatisticSet statisticSet = calculateStatisticDataSet(records, filters);
+        statisticSet.setFilters(filters);
+        statisticSet.setEndDate(targetDate);
+        statisticSet.setScope(count);
+        return statisticSet;
     }
 
     @Override
@@ -83,7 +87,11 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
                                                      int count,
                                                      Map<String, String> filters) {
         List<IQCPlanRecord> records = getRecords(plan.getId(), targetDate, count);
-        return calculateStatisticDataSet(records, filters);
+        IQCHistoryStatisticSet statisticSet =  calculateStatisticDataSet(records, filters);
+        statisticSet.setFilters(filters);
+        statisticSet.setEndDate(targetDate);
+        statisticSet.setScope(count);
+        return statisticSet;
     }
 
 

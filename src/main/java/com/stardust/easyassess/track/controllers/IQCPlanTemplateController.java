@@ -11,17 +11,20 @@ import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.services.EntityService;
 import com.stardust.easyassess.track.services.IQCPlanService;
 import com.stardust.easyassess.track.services.IQCPlanTemplateService;
+import com.stardust.easyassess.track.services.IQCReportingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @CrossOrigin("*")
@@ -116,5 +119,38 @@ public class IQCPlanTemplateController extends MaintenanceController<IQCPlanTemp
         Sort sortBy = new Sort(Sort.Direction.ASC, sort);
         Pageable pageRequest = new PageRequest(page, size, sortBy);
         return new ViewJSONWrapper(new PageImpl(((IQCPlanTemplateService)getService()).getRecordsWithPlans(planPage.getContent(), target), pageRequest, planPage.getTotalElements()));
+    }
+
+    @RequestMapping(path="/{id}/statistic",
+            method={RequestMethod.POST})
+    public void getStatisticData(@PathVariable String id,
+                                 @RequestBody Map<String, String> filters,
+                                 @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
+                                 @RequestParam(name = "count", defaultValue = "30") Integer count,
+                                 HttpServletResponse response) throws Exception {
+        response.reset();
+        response.setHeader("Content-disposition", "attachment;filename=" +  java.net.URLEncoder.encode("统计报表", "UTF-8") + ".xls");
+        response.setContentType("application/msexcel");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        IQCReportingService reportingService = applicationContext.getBean(IQCReportingService.class);
+        reportingService.generatePeriodicalGatherStatisticReport(id, targetDate, count, filters, response.getOutputStream());
+    }
+
+
+    @RequestMapping(path="/{id}/statistic/units",
+            method={RequestMethod.POST})
+    public void getPlansStatisticData(@PathVariable String id,
+                                            @RequestBody Map<String, String> filters,
+                                            @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
+                                            @RequestParam(name = "count", defaultValue = "30") Integer count,
+                                            HttpServletResponse response) throws Exception {
+        response.reset();
+        response.setHeader("Content-disposition", "attachment;filename=" +  java.net.URLEncoder.encode("统计报表", "UTF-8") + ".xls");
+        response.setContentType("application/msexcel");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        IQCReportingService reportingService = applicationContext.getBean(IQCReportingService.class);
+        reportingService.generatePeriodicalUnitsStatisticReport(id, targetDate, count, filters, response.getOutputStream());
     }
 }

@@ -1,20 +1,19 @@
 package com.stardust.easyassess.track.services;
 
 
-import com.stardust.easyassess.core.query.Selection;
 import com.stardust.easyassess.track.dao.repositories.DataRepository;
-import com.stardust.easyassess.track.dao.repositories.IQCPlanRecordRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanTemplateRepository;
 import com.stardust.easyassess.track.models.Owner;
-import com.stardust.easyassess.track.models.Plan;
 import com.stardust.easyassess.track.models.plan.IQCHistorySet;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
-import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
+import com.stardust.easyassess.track.models.statistics.IQCHistorySpecimenStatisticSet;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryGatherStatisticModel;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSet;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryUnitStatisticModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -83,5 +82,39 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
             results.add(result);
         }
         return results;
+    }
+
+    @Override
+    public IQCHistoryGatherStatisticModel getGatherStatisticData(String templateId,
+                                                                 Date targetDate,
+                                                                 int count,
+                                                                 Map<String, String> filters) {
+        List<IQCPlan> plans = iqcPlanRepository.findPlansByTemplateId(templateId);
+        IQCPlanTemplate template = iqcPlanTemplateRepository.findOne(templateId);
+        IQCHistoryStatisticSet statisticSet = iqcPlanService.getPeriodStatistic(plans, targetDate, count, filters);
+        return new IQCHistoryGatherStatisticModel(new IQCHistorySpecimenStatisticSet(statisticSet),
+                statisticSet.getStartDate(),
+                statisticSet.getEndDate(),
+                statisticSet.getFilters(),
+                plans.size(),
+                template);
+    }
+
+    @Override
+    public Map<String, IQCHistoryUnitStatisticModel> getUnitStatisticCollection(String templateId,
+                                                                                Date targetDate,
+                                                                                int count,
+                                                                                Map<String, String> filters) {
+        Map<String, IQCHistoryUnitStatisticModel> model = new HashMap();
+        List<IQCPlan> plans = iqcPlanRepository.findPlansByTemplateId(templateId);
+        for (IQCPlan plan : plans) {
+            IQCHistoryStatisticSet statisticSet = iqcPlanService.getPeriodStatistic(plan, targetDate, count, filters);
+            model.put(plan.getOwner().getName(), new IQCHistoryUnitStatisticModel(new IQCHistorySpecimenStatisticSet(statisticSet),
+                    statisticSet.getStartDate(),
+                    statisticSet.getEndDate(),
+                    statisticSet.getFilters(),
+                    plan));
+        }
+        return model;
     }
 }

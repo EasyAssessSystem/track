@@ -99,7 +99,7 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
             method={RequestMethod.GET})
     public ViewJSONWrapper getRecordsWithinTargetDate(@PathVariable String id,
                                                       @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
-                                                      @RequestParam(name = "count", defaultValue = "20") Integer count) throws ESAppException, ParseException {
+                                                      @RequestParam(name = "count", defaultValue = "30") Integer count) throws ESAppException, ParseException {
 
         Date target = new Date();
         if (!targetDate.isEmpty()) {
@@ -114,7 +114,7 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
     public ViewJSONWrapper getStatisticData(@PathVariable String id,
                                             @RequestBody Map<String, String> filters,
                                             @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
-                                            @RequestParam(name = "count", defaultValue = "20") Integer count) throws ESAppException, ParseException {
+                                            @RequestParam(name = "count", defaultValue = "30") Integer count) throws ESAppException, ParseException {
         Date target = new Date();
         if (!targetDate.isEmpty()) {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
