@@ -1,5 +1,7 @@
 package com.stardust.easyassess.track.models.plan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +63,31 @@ public class IQCPlanSpecimen {
 
     public void setEnumValues(Map<String, Integer> enumValues) {
         this.enumValues = enumValues;
+    }
+
+    @JsonIgnore
+    public boolean isInControl() {
+        boolean result = false;
+        switch (type) {
+            case SPECIMEN_TYPE_SELECTION:
+                if (Math.abs(new Double(getTargetValue()).intValue() - enumValues.get(getValue())) <= new Double(getFloatValue()).intValue()) {
+                    result = true;
+                }
+                break;
+            case SPECIMEN_TYPE_TARGET_WITH_FIX_FLOAT:
+                if (Math.abs(getTargetValue() - Double.parseDouble(getValue())) <= new Double(getFloatValue()).doubleValue()) {
+                    result = true;
+                }
+                break;
+            case SPECIMEN_TYPE_TARGET_WITH_PERCENTAGE_FLOAT:
+                double diff = getTargetValue() - Double.parseDouble(getValue());
+                double percentage = (diff/getTargetValue()) * 100;
+                if (percentage < getFloatValue()) {
+                    result = true;
+                }
+                break;
+        }
+        return result;
     }
 }
 

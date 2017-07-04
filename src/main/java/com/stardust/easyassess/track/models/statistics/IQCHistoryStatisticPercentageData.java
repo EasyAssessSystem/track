@@ -25,7 +25,7 @@ public class IQCHistoryStatisticPercentageData extends IQCHistoryStatisticData {
     }
 
     @Override
-    public void proceed(IQCPlanSpecimen item) {
+    protected void statistic(IQCPlanSpecimen item) {
         if (item.getValue() != null && !item.getValue().isEmpty()) {
             Long count = valueCountMap.containsKey(item.getValue())
                     ? valueCountMap.get(item.getValue()) : new Long(0) ;
