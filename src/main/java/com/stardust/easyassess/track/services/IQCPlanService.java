@@ -8,6 +8,7 @@ import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticComparisonModel;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSet;
+import com.stardust.easyassess.track.models.statistics.IQCHistoryUnitStatisticModel;
 import org.springframework.data.domain.Page;
 
 import java.text.ParseException;
@@ -36,4 +37,9 @@ public interface IQCPlanService extends EntityService<IQCPlan> {
                                               Date targetDate,
                                               int count,
                                               Map<String, String> filters);
+
+    IQCHistoryUnitStatisticModel getUnitStatistic(String planId,
+                                                  Date targetDate,
+                                                  int count,
+                                                  Map<String, String> filters);
 }

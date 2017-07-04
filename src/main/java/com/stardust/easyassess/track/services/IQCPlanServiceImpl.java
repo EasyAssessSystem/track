@@ -8,10 +8,7 @@ import com.stardust.easyassess.track.dao.repositories.IQCPlanRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanTemplateRepository;
 import com.stardust.easyassess.track.models.Owner;
 import com.stardust.easyassess.track.models.plan.*;
-import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticComparisonModel;
-import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticData;
-import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticItem;
-import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSet;
+import com.stardust.easyassess.track.models.statistics.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -191,5 +188,20 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     @Override
     protected DataRepository<IQCPlan, String> getRepository() {
         return iqcPlanRepository;
+    }
+
+
+    @Override
+    public IQCHistoryUnitStatisticModel getUnitStatistic(String planId,
+                                                         Date targetDate,
+                                                         int count,
+                                                         Map<String, String> filters) {
+        IQCPlan plan = iqcPlanRepository.findOne(planId);
+        IQCHistoryStatisticSet statisticSet = getPeriodStatistic(plan, targetDate, count, filters);
+        return new IQCHistoryUnitStatisticModel(new IQCHistorySpecimenStatisticSet(statisticSet),
+                statisticSet.getStartDate(),
+                statisticSet.getEndDate(),
+                statisticSet.getFilters(),
+                plan);
     }
 }

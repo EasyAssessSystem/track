@@ -16,4 +16,10 @@ public interface IQCReportingService {
                                                 int count,
                                                 Map<String, String> filters,
                                                 OutputStream outputStream) throws Exception;
+
+    void generatePeriodicalUnitStatisticReport( String planId,
+                                                String targetDate,
+                                                int count,
+                                                Map<String, String> filters,
+                                                OutputStream outputStream) throws Exception;
 }

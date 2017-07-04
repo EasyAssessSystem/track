@@ -10,11 +10,13 @@ import com.stardust.easyassess.track.models.plan.IQCPlanRecord;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSet;
 import com.stardust.easyassess.track.services.EntityService;
 import com.stardust.easyassess.track.services.IQCPlanService;
+import com.stardust.easyassess.track.services.IQCReportingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -122,5 +124,21 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         }
 
         return new ViewJSONWrapper(((IQCPlanService)getService()).getPeriodStatisticComparison(id, target, count, filters));
+    }
+
+    @RequestMapping(path="/{id}/statistic/excel",
+            method={RequestMethod.POST})
+    public void getStatisticReport(@PathVariable String id,
+                                      @RequestBody Map<String, String> filters,
+                                      @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
+                                      @RequestParam(name = "count", defaultValue = "30") Integer count,
+                                      HttpServletResponse response) throws Exception {
+        response.reset();
+        response.setHeader("Content-disposition", "attachment;filename=" +  java.net.URLEncoder.encode("统计报表", "UTF-8") + ".xls");
+        response.setContentType("application/msexcel");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        IQCReportingService reportingService = applicationContext.getBean(IQCReportingService.class);
+        reportingService.generatePeriodicalUnitStatisticReport(id, targetDate, count, filters, response.getOutputStream());
     }
 }

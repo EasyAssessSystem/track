@@ -4,7 +4,6 @@ package com.stardust.easyassess.track.reports;
 import com.stardust.easyassess.track.models.plan.IQCPlanSpecimen;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticData;
-import com.stardust.easyassess.track.models.statistics.IQCHistoryGatherStatisticModel;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticSpecimen;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryUnitStatisticModel;
 import jxl.write.Label;
