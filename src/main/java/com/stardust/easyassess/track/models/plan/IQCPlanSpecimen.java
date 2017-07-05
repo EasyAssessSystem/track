@@ -75,12 +75,12 @@ public class IQCPlanSpecimen {
                 }
                 break;
             case SPECIMEN_TYPE_TARGET_WITH_FIX_FLOAT:
-                if (Math.abs(getTargetValue() - Double.parseDouble(getValue())) <= new Double(getFloatValue()).doubleValue()) {
+                if (Math.abs(getTargetValue() - getSafelyNumberValue()) <= new Double(getFloatValue()).doubleValue()) {
                     result = true;
                 }
                 break;
             case SPECIMEN_TYPE_TARGET_WITH_PERCENTAGE_FLOAT:
-                double diff = getTargetValue() - Double.parseDouble(getValue());
+                double diff = getTargetValue() - getSafelyNumberValue();
                 double percentage = (diff/getTargetValue()) * 100;
                 if (percentage < getFloatValue()) {
                     result = true;
@@ -88,6 +88,18 @@ public class IQCPlanSpecimen {
                 break;
         }
         return result;
+    }
+
+    private double getSafelyNumberValue() {
+        String value = getValue();
+        if (value != null && !value.isEmpty()) {
+            value = value.replaceAll("[^-+.\\d]", "");
+        }
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }
 
