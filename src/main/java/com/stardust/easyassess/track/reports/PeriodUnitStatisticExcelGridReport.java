@@ -44,10 +44,10 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
             currentWorksheet.addCell(new Label(1, titleStartRow, "检测项", titleFormat));
             currentWorksheet.addCell(new Label(2, titleStartRow, "参考值", titleFormat));
             currentWorksheet.addCell(new Label(3, titleStartRow, "实验数据", titleFormat));
-            currentWorksheet.addCell(new Label(4, titleStartRow, "全部实验室数据", titleFormat));
-            currentWorksheet.addCell(new Label(5, titleStartRow, "受控情况", titleFormat));
+            currentWorksheet.addCell(new Label(4, titleStartRow, "受控情况", titleFormat));
+            currentWorksheet.addCell(new Label(5, titleStartRow, "全部实验室数据", titleFormat));
             currentWorksheet.addCell(new Label(6, titleStartRow, "总实验次数", titleFormat));
-            currentWorksheet.addCell(new Label(7, titleStartRow, "总实验数", titleFormat));
+            currentWorksheet.addCell(new Label(7, titleStartRow, "总实验室数", titleFormat));
 
             // statistic data
             int specimenCursor = titleStartRow + 1;
@@ -69,8 +69,8 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
                     currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
                     currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
                     currentWorksheet.addCell(new Label(3, subjectCursor, unitData.toString(), labelFormat));
-                    currentWorksheet.addCell(new Label(4, subjectCursor, gatherData.toString(), labelFormat));
-                    currentWorksheet.addCell(new Label(5, subjectCursor, "在控:" + unitData.getInControl() + "例, 失控" + unitData.getOutOfControl() + "例", labelFormat));
+                    currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + unitData.getInControl() + "例, 失控" + unitData.getOutOfControl() + "例", labelFormat));
+                    currentWorksheet.addCell(new Label(5, subjectCursor, gatherData.toString(), labelFormat));
                     currentWorksheet.addCell(new Label(6, subjectCursor, "共" + gatherData.getCount().toString() + "次", labelFormat));
                     currentWorksheet.addCell(new Label(7, subjectCursor, "共" + gatherModel.getBranchCount() + "个实验室", labelFormat));
                     subjectCursor++;
