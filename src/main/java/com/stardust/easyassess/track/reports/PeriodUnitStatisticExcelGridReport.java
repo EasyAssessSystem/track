@@ -72,7 +72,7 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
                     currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + unitData.getInControl() + "例, 失控" + unitData.getOutOfControl() + "例", labelFormat));
                     currentWorksheet.addCell(new Label(5, subjectCursor, gatherData.toString(), labelFormat));
                     currentWorksheet.addCell(new Label(6, subjectCursor, "共" + gatherData.getCount().toString() + "次", labelFormat));
-                    currentWorksheet.addCell(new Label(7, subjectCursor, "共" + gatherModel.getBranchCount() + "个实验室", labelFormat));
+                    currentWorksheet.addCell(new Label(7, subjectCursor, "共" + gatherData.getCountOfParticipants() + "个实验室", labelFormat));
                     subjectCursor++;
                 }
 

@@ -103,6 +103,7 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
                     IQCHistoryStatisticData statisticData
                             = statisticItem.getStatisticData(specimen);
                     statisticData.proceed(specimen);
+                    statisticData.addParticipant(record.getOwner());
                 }
             }
         }

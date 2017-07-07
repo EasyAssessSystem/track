@@ -96,7 +96,6 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
                 statisticSet.getStartDate(),
                 statisticSet.getEndDate(),
                 statisticSet.getFilters(),
-                plans.size(),
                 template);
     }
 
