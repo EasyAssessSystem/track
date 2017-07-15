@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.reports;
 
 
+import com.stardust.easyassess.track.models.plan.IQCPlanItem;
 import com.stardust.easyassess.track.models.plan.IQCPlanSpecimen;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryStatisticData;
@@ -61,16 +62,20 @@ public class PeriodUnitsStatisticExcelGridReport extends PeriodStatisticExcelGri
                     currentWorksheet.mergeCells(0, specimenCursor, 0, dataSet.getItems().keySet().size());
 
                     int subjectCursor = specimenCursor;
-                    for (String subject : dataSet.getItems().keySet()) {
-                        IQCHistoryStatisticData data = dataSet.getItems().get(subject);
-                        IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(model.get(unit).getPlan(), subject, specimen);
-                        currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
-                        currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
-                        currentWorksheet.addCell(new Label(3, subjectCursor, data.toString(), labelFormat));
-                        currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
-                        currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
-                        subjectCursor++;
+                    for (IQCPlanItem item : template.getItems()) {
+                        String subject = item.getSubject();
+                        //for (String subject : dataSet.getItems().keySet()) {
+                            IQCHistoryStatisticData data = dataSet.getItems().get(subject);
+                            IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(model.get(unit).getPlan(), subject, specimen);
+                            currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
+                            currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
+                            currentWorksheet.addCell(new Label(3, subjectCursor, data.toString(), labelFormat));
+                            currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
+                            currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
+                            subjectCursor++;
+                        //}
                     }
+
 
                     specimenCursor+=dataSet.getItems().keySet().size();
                 }

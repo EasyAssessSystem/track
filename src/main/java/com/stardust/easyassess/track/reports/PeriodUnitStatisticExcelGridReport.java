@@ -1,6 +1,7 @@
 package com.stardust.easyassess.track.reports;
 
 
+import com.stardust.easyassess.track.models.plan.IQCPlanItem;
 import com.stardust.easyassess.track.models.plan.IQCPlanSpecimen;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryGatherStatisticModel;
@@ -62,7 +63,9 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
                 currentWorksheet.mergeCells(0, specimenCursor, 0, unitDataSet.getItems().keySet().size());
 
                 int subjectCursor = specimenCursor;
-                for (String subject : unitDataSet.getItems().keySet()) {
+                for (IQCPlanItem item : template.getItems()) {
+                    String subject = item.getSubject();
+                    //for (String subject : unitDataSet.getItems().keySet()) {
                     IQCHistoryStatisticData unitData = unitDataSet.getItems().get(subject);
                     IQCHistoryStatisticData gatherData = gatherDataSet.getItems().get(subject);
                     IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(unitModel.getPlan(), subject, specimen);
@@ -74,8 +77,8 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
                     currentWorksheet.addCell(new Label(6, subjectCursor, "共" + gatherData.getCount().toString() + "次", labelFormat));
                     currentWorksheet.addCell(new Label(7, subjectCursor, "共" + gatherData.getCountOfParticipants() + "个实验室", labelFormat));
                     subjectCursor++;
+                    //}
                 }
-
                 specimenCursor+=unitDataSet.getItems().keySet().size();
             }
 
