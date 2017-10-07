@@ -183,6 +183,8 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         for (IQCPlan plan : plans) {
             plan.getOwner().setName(owner.getName());
             iqcPlanRepository.save(plan);
+            plan.getTemplate().getParticipants().put(owner.getId(), owner.getName());
+            iqcPlanTemplateRepository.save(plan.getTemplate());
         }
     }
 
@@ -204,5 +206,12 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
                 statisticSet.getEndDate(),
                 statisticSet.getFilters(),
                 plan);
+    }
+
+    @Override
+    public IQCPlan save(IQCPlan plan) {
+        plan.getTemplate().getParticipants().put(plan.getOwner().getId(), plan.getOwner().getName());
+        iqcPlanTemplateRepository.save(plan.getTemplate());
+        return super.save(plan);
     }
 }

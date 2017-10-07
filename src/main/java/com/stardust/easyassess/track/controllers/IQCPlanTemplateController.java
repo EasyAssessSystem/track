@@ -81,16 +81,16 @@ public class IQCPlanTemplateController extends MaintenanceController<IQCPlanTemp
         return postList(getService().list(page, size , sort, selections));
     }
 
-    @RequestMapping(path="/{id}/plan/list",
+    @RequestMapping(path="/{id}/plan/{owner}/list",
             method={RequestMethod.GET})
-    public ViewJSONWrapper planList(@PathVariable String id, @RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ViewJSONWrapper planList(@PathVariable String id, @PathVariable String owner, @RequestParam(value = "page", defaultValue = "0") Integer page,
                                               @RequestParam(value = "size", defaultValue = "4") Integer size,
                                               @RequestParam(value = "sort", defaultValue = "id") String sort,
                                               @RequestParam(value = "filterField", defaultValue = "") String field,
                                               @RequestParam(value = "filterValue", defaultValue = "") String value ) throws Exception {
-
         List<Selection> selections = new ArrayList();
         selections.add(new Selection("template.id", Selection.Operator.EQUAL, id));
+        selections.add(new Selection("owner.id", Selection.Operator.EQUAL, owner));
         selections.add(new Selection(field, Selection.Operator.LIKE, value));
         return new ViewJSONWrapper(applicationContext.getBean(IQCPlanService.class).list(page, size , sort, selections));
     }
