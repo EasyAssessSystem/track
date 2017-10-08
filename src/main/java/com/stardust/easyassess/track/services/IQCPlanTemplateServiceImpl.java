@@ -2,11 +2,13 @@ package com.stardust.easyassess.track.services;
 
 
 import com.stardust.easyassess.track.dao.repositories.DataRepository;
+import com.stardust.easyassess.track.dao.repositories.IQCPlanGroupRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanRepository;
 import com.stardust.easyassess.track.dao.repositories.IQCPlanTemplateRepository;
 import com.stardust.easyassess.track.models.Owner;
 import com.stardust.easyassess.track.models.plan.IQCHistorySet;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
+import com.stardust.easyassess.track.models.plan.IQCPlanGroup;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
 import com.stardust.easyassess.track.models.statistics.IQCHistorySpecimenStatisticSet;
 import com.stardust.easyassess.track.models.statistics.IQCHistoryGatherStatisticModel;
@@ -27,6 +29,9 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
 
     @Autowired
     private IQCPlanRepository iqcPlanRepository;
+
+    @Autowired
+    private IQCPlanGroupRepository iqcPlanGroupRepository;
 
     @Autowired
     private IQCPlanTemplateRepository iqcPlanTemplateRepository;
@@ -51,20 +56,23 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
     @Override
     public IQCPlanTemplate save(IQCPlanTemplate model) {
         IQCPlanTemplate template = getRepository().save(model);
-
-        List<IQCPlan> plans = iqcPlanRepository.findPlansByTemplateId(model.getId());
-        if (plans.size() > 0) {
-            for (IQCPlan plan : plans) {
-                plan.setName(template.getName());
-                plan.setItems(template.getItems());
-                plan.setAdditionalItems(template.getAdditionalItems());
-                plan.setVersion(plan.getVersion() + 1);
-                iqcPlanService.save(plan);
+        List<IQCPlanGroup> groups = iqcPlanGroupRepository.findGroupsByTemplateId(model.getId());
+        if (groups.size() > 0) {
+            for (IQCPlanGroup group : groups) {
+                for (IQCPlan plan : group.getPlans()) {
+                    plan.setItems(template.getItems());
+                    plan.setAdditionalItems(template.getAdditionalItems());
+                    plan.setVersion(plan.getVersion() + 1);
+                    iqcPlanService.save(plan);
+                }
             }
         } else {
             for (String ownerId : model.getParticipants().keySet()) {
                 Owner owner = new Owner(ownerId, model.getParticipants().get(ownerId));
-                iqcPlanService.copyFromTemplate(template, owner);
+                IQCPlanGroup group = new IQCPlanGroup();
+                group.setTemplate(template);
+                group.setOwner(owner);
+                iqcPlanGroupRepository.save(group);
             }
         }
 

@@ -8,10 +8,7 @@ import com.stardust.easyassess.track.models.Owner;
 import com.stardust.easyassess.track.models.plan.IQCHistorySet;
 import com.stardust.easyassess.track.models.plan.IQCPlan;
 import com.stardust.easyassess.track.models.plan.IQCPlanTemplate;
-import com.stardust.easyassess.track.services.EntityService;
-import com.stardust.easyassess.track.services.IQCPlanService;
-import com.stardust.easyassess.track.services.IQCPlanTemplateService;
-import com.stardust.easyassess.track.services.IQCReportingService;
+import com.stardust.easyassess.track.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -93,6 +90,19 @@ public class IQCPlanTemplateController extends MaintenanceController<IQCPlanTemp
         selections.add(new Selection("owner.id", Selection.Operator.EQUAL, owner));
         selections.add(new Selection(field, Selection.Operator.LIKE, value));
         return new ViewJSONWrapper(applicationContext.getBean(IQCPlanService.class).list(page, size , sort, selections));
+    }
+
+    @RequestMapping(path="/{id}/group/list",
+            method={RequestMethod.GET})
+    public ViewJSONWrapper groupList(@PathVariable String id, @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "4") Integer size,
+                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                    @RequestParam(value = "filterField", defaultValue = "") String field,
+                                    @RequestParam(value = "filterValue", defaultValue = "") String value ) throws Exception {
+        List<Selection> selections = new ArrayList();
+        selections.add(new Selection("template.id", Selection.Operator.EQUAL, id));
+        selections.add(new Selection(field, Selection.Operator.LIKE, value));
+        return new ViewJSONWrapper(applicationContext.getBean(IQCPlanGroupService.class).list(page, size , sort, selections));
     }
 
     @RequestMapping(path="/{id}/record/list",

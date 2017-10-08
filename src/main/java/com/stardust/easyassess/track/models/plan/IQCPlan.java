@@ -26,6 +26,9 @@ public class IQCPlan extends DataModel implements IQCSubjectSpecimenMatrix {
     @DBRef(lazy = true)
     private IQCPlanTemplate template;
 
+    @DBRef(lazy = true)
+    private IQCPlanGroup group;
+
     private List<IQCPlanItem> items = new ArrayList();
 
     private List<AdditionalItem> additionalItems = new ArrayList();
@@ -68,6 +71,16 @@ public class IQCPlan extends DataModel implements IQCSubjectSpecimenMatrix {
     @JsonProperty
     public void setTemplate(IQCPlanTemplate template) {
         this.template = template;
+    }
+
+    @JsonIgnore
+    public IQCPlanGroup getGroup() {
+        return group;
+    }
+
+    @JsonProperty
+    public void setGroup(IQCPlanGroup group) {
+        this.group = group;
     }
 
     public Owner getOwner() {
