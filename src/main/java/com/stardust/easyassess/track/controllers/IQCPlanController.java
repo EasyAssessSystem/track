@@ -55,6 +55,7 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         if (plan != null) {
             model.setId(id);
             model.setOwner(plan.getOwner());
+            model.setGroup(plan.getGroup());
             model.setTemplate(plan.getTemplate());
             model.setRecords(plan.getRecords());
         }
@@ -86,15 +87,20 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
     @RequestMapping(path="/{id}/record",
             method={RequestMethod.POST})
     public ViewJSONWrapper createRecord(@PathVariable String id, @RequestBody IQCPlanRecord record) throws ESAppException, ParseException {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date today = formatter.parse(formatter.format(new Date()));
-        return new ViewJSONWrapper(((IQCPlanService)getService()).submitRecord(today, id, record, getOwner()));
+        return new ViewJSONWrapper(((IQCPlanService)getService()).submitRecord(record.getDate(), id, record, getOwner()));
     }
 
     @RequestMapping(path="/{id}/record",
             method={RequestMethod.GET})
     public ViewJSONWrapper getTodayRecord(@PathVariable String id) throws ESAppException, ParseException {
         return new ViewJSONWrapper(((IQCPlanService)getService()).getTodayRecord(id));
+    }
+
+    @RequestMapping(path="/{id}/record/{date}",
+            method={RequestMethod.GET})
+    public ViewJSONWrapper getRecordByDate(@PathVariable String id, @PathVariable String date) throws ESAppException, ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return new ViewJSONWrapper(((IQCPlanService)getService()).getRecord(id, formatter.parse(date)));
     }
 
     @RequestMapping(path="/{id}/records",

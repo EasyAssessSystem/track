@@ -49,10 +49,6 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         //Date today = formatter.parse(formatter.format(new Date()));
         IQCPlan plan = iqcPlanRepository.findOne(planId);
-        IQCPlanRecord todayRecord = getTodayRecord(planId);
-        if (todayRecord != null) {
-            record.setId(todayRecord.getId());
-        }
         record.setVersion(plan.getVersion());
         record.setPlan(plan);
         record.setOwner(owner);
@@ -161,8 +157,18 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     public IQCPlanRecord getTodayRecord(String planId) throws ParseException {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date today = formatter.parse(formatter.format(new Date()));
+        return getRecord(planId, today);
+    }
 
-        List<IQCPlanRecord> records = iqcPlanRecordRepository.findRecordsByPlanId(today, today, planId);
+    @Override
+    public IQCPlanRecord getRecord(String planId, Date targetDate)  {
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        start.setTime(targetDate);
+        end.setTime(targetDate);
+        start.set(Calendar.DATE, end.get(Calendar.DATE));
+        end.set(Calendar.DATE, end.get(Calendar.DATE) + 1);
+        List<IQCPlanRecord> records = iqcPlanRecordRepository.findRecordsByPlanId(start.getTime(), end.getTime(), planId);
         if (records != null && !records.isEmpty()) {
             return records.get(0);
         }
