@@ -19,6 +19,8 @@ public class IQCPlanTemplate extends DataModel implements IQCSubjectSpecimenMatr
 
     private String name;
 
+    private String comment;
+
     @Embedded
     private Map<String, String> participants;
 
@@ -36,6 +38,14 @@ public class IQCPlanTemplate extends DataModel implements IQCSubjectSpecimenMatr
 
     public String getId() {
         return id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public void setId(String id) {

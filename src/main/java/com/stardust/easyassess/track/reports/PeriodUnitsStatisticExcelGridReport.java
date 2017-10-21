@@ -66,13 +66,15 @@ public class PeriodUnitsStatisticExcelGridReport extends PeriodStatisticExcelGri
                         String subject = item.getSubject();
                         //for (String subject : dataSet.getItems().keySet()) {
                             IQCHistoryStatisticData data = dataSet.getItems().get(subject);
-                            IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(model.get(unit).getPlan(), subject, specimen);
-                            currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
-                            currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
-                            currentWorksheet.addCell(new Label(3, subjectCursor, data.toString(), labelFormat));
-                            currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
-                            currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
-                            subjectCursor++;
+                            if (data != null) {
+                                IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(model.get(unit).getPlan(), subject, specimen);
+                                currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
+                                currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
+                                currentWorksheet.addCell(new Label(3, subjectCursor, data.toString(), labelFormat));
+                                currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
+                                currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
+                                subjectCursor++;
+                            }
                         //}
                     }
 

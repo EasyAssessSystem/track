@@ -23,6 +23,8 @@ public class IQCPlanRecord extends DataModel {
 
     private Owner owner;
 
+    private String tags;
+
     @DBRef(lazy = true)
     private IQCPlan plan;
 
@@ -96,5 +98,13 @@ public class IQCPlanRecord extends DataModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

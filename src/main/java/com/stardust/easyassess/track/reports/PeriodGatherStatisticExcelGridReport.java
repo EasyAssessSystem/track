@@ -60,14 +60,16 @@ public class PeriodGatherStatisticExcelGridReport extends PeriodStatisticExcelGr
                     String subject = item.getSubject();
                     //for (String subject : dataSet.getItems().keySet()) {
                     IQCHistoryStatisticData data = dataSet.getItems().get(subject);
-                    currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
-                    //currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(getSpecimen(model.getTemplate(), subject, specimen)), labelFormat));
-                    currentWorksheet.addCell(new Label(2, subjectCursor, data.toString(), labelFormat));
-                    currentWorksheet.addCell(new Label(3, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
-                    currentWorksheet.addCell(new Label(4, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
-                    currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCountOfParticipants() + "个实验室", labelFormat));
-                    subjectCursor++;
-                    //}
+                    if (data != null) {
+                        currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
+                        //currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(getSpecimen(model.getTemplate(), subject, specimen)), labelFormat));
+                        currentWorksheet.addCell(new Label(2, subjectCursor, data.toString(), labelFormat));
+                        currentWorksheet.addCell(new Label(3, subjectCursor, "在控:" + data.getInControl() + "例, 失控" + data.getOutOfControl() + "例", labelFormat));
+                        currentWorksheet.addCell(new Label(4, subjectCursor, "共" + data.getCount().toString() + "次", labelFormat));
+                        currentWorksheet.addCell(new Label(5, subjectCursor, "共" + data.getCountOfParticipants() + "个实验室", labelFormat));
+                        subjectCursor++;
+                        //}
+                    }
                 }
 
                 specimenCursor+=dataSet.getItems().keySet().size();

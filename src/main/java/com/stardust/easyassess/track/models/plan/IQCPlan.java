@@ -47,6 +47,10 @@ public class IQCPlan extends DataModel implements IQCSubjectSpecimenMatrix {
         this.additionalItems = template.getAdditionalItems();
     }
 
+    public String getComment() {
+        return this.template != null ? this.template.getComment() : "";
+    }
+
     public int getVersion() {
         return version;
     }

@@ -123,7 +123,9 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         for (String additionalDataName : filters.keySet()) {
             String additionalDataValue = filters.get(additionalDataName);
             if (additionalDataValue == null || additionalDataValue.isEmpty()) continue;
-            if (!record.getAdditionalData().containsKey(additionalDataName)
+            if (additionalDataName.equals("tags")) {
+                return !additionalDataValue.equals(record.getTags());
+            } else if (!record.getAdditionalData().containsKey(additionalDataName)
                     || !additionalDataValue.equals(record.getAdditionalData().get(additionalDataName))) {
                 return true;
             }
@@ -157,23 +159,18 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     public IQCPlanRecord getTodayRecord(String planId) throws ParseException {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date today = formatter.parse(formatter.format(new Date()));
-        return getRecord(planId, today);
+        return getRecord(planId, today).get(0);
     }
 
     @Override
-    public IQCPlanRecord getRecord(String planId, Date targetDate)  {
+    public List<IQCPlanRecord> getRecord(String planId, Date targetDate)  {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
         start.setTime(targetDate);
         end.setTime(targetDate);
         start.set(Calendar.DATE, end.get(Calendar.DATE));
         end.set(Calendar.DATE, end.get(Calendar.DATE) + 1);
-        List<IQCPlanRecord> records = iqcPlanRecordRepository.findRecordsByPlanId(start.getTime(), end.getTime(), planId);
-        if (records != null && !records.isEmpty()) {
-            return records.get(0);
-        }
-
-        return null;
+        return iqcPlanRecordRepository.findRecordsByPlanId(start.getTime(), end.getTime(), planId);
     }
 
     @Override
