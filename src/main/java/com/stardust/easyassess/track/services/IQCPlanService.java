@@ -20,6 +20,7 @@ public interface IQCPlanService extends EntityService<IQCPlan> {
     IQCPlan copyFromTemplate(IQCPlanTemplate template, Owner owner);
     IQCPlan copyFromTemplate(String templateId, Owner owner);
     IQCPlanRecord submitRecord(Date date, String planId, IQCPlanRecord record, Owner owner) throws ParseException;
+    IQCPlanRecord addComment(String recordId, String comment) throws ParseException;
     List<IQCPlanRecord> getRecords(String planId, Date targetDate);
     List<IQCPlanRecord> getRecords(String planId, Date targetDate, int count);
     IQCPlanRecord getTodayRecord(String planId) throws ParseException;

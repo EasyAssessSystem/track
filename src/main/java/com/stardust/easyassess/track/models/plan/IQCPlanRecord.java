@@ -19,11 +19,19 @@ public class IQCPlanRecord extends DataModel {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date lastModified;
+
     private String name;
 
     private Owner owner;
 
     private String tags;
+
+    private String comments;
 
     @DBRef(lazy = true)
     private IQCPlan plan;
@@ -106,5 +114,29 @@ public class IQCPlanRecord extends DataModel {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

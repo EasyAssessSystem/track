@@ -54,7 +54,25 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
         record.setOwner(owner);
         record.setName(plan.getName());
         record.setDate(date);
+        if (record.getCreatedAt() == null) {
+            record.setCreatedAt(new Date());
+        }
+        record.setLastModified(new Date());
         return iqcPlanRecordRepository.save(record);
+    }
+
+    @Override
+    public IQCPlanRecord addComment(String recordId, String comment) throws ParseException {
+        IQCPlanRecord record = iqcPlanRecordRepository.findOne(recordId);
+        if (record != null) {
+            if (comment.equals("null")) {
+                record.setComments(null);
+            } else {
+                record.setComments(comment);
+            }
+            iqcPlanRecordRepository.save(record);
+        }
+        return record;
     }
 
     @Override

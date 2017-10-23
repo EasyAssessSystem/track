@@ -90,6 +90,12 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         return new ViewJSONWrapper(((IQCPlanService)getService()).submitRecord(record.getDate(), id, record, getOwner()));
     }
 
+    @RequestMapping(path="/record/{id}/comment/{comment}",
+            method={RequestMethod.POST})
+    public ViewJSONWrapper updateComment(@PathVariable String id, @PathVariable String comment) throws ESAppException, ParseException {
+        return new ViewJSONWrapper(((IQCPlanService)getService()).addComment(id, comment));
+    }
+
     @RequestMapping(path="/{id}/record",
             method={RequestMethod.GET})
     public ViewJSONWrapper getTodayRecord(@PathVariable String id) throws ESAppException, ParseException {
