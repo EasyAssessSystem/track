@@ -116,7 +116,7 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
         List<IQCPlan> plans = iqcPlanRepository.findPlansByTemplateId(templateId);
         for (IQCPlan plan : plans) {
             IQCHistoryStatisticSet statisticSet = iqcPlanService.getPeriodStatistic(plan, targetDate, count, filters);
-            model.put(plan.getOwner().getName(), new IQCHistoryUnitStatisticModel(new IQCHistorySpecimenStatisticSet(statisticSet),
+            model.put(plan.getOwner().getName() + "-" + plan.getName(), new IQCHistoryUnitStatisticModel(new IQCHistorySpecimenStatisticSet(statisticSet),
                     statisticSet.getStartDate(),
                     statisticSet.getEndDate(),
                     statisticSet.getFilters(),

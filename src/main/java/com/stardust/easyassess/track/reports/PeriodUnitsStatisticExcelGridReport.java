@@ -43,7 +43,7 @@ public class PeriodUnitsStatisticExcelGridReport extends PeriodStatisticExcelGri
 
                 // titles
                 int titleStartRow = offset + 3;
-                currentWorksheet.addCell(new Label(0, titleStartRow, model.get(unit).getPlan().getOwner().getName(), titleFormat));
+                currentWorksheet.addCell(new Label(0, titleStartRow, unit, titleFormat));
                 titleStartRow++;
                 currentWorksheet.addCell(new Label(0, titleStartRow, "质控品", titleFormat));
                 currentWorksheet.addCell(new Label(1, titleStartRow, "检测项", titleFormat));
