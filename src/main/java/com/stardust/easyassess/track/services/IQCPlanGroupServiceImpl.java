@@ -17,6 +17,9 @@ public class IQCPlanGroupServiceImpl extends AbstractEntityService<IQCPlanGroup>
     @Autowired
     private IQCPlanGroupRepository iqcPlanGroupRepository;
 
+    @Autowired
+    private IQCPlanRepository iqcPlanRepository;
+
     @Override
     public void updateOwnerName(Owner owner) {
         List<IQCPlanGroup> groups = iqcPlanGroupRepository.findGroupsByOwnerId(owner.getId());
@@ -29,5 +32,14 @@ public class IQCPlanGroupServiceImpl extends AbstractEntityService<IQCPlanGroup>
     @Override
     protected DataRepository<IQCPlanGroup, String> getRepository() {
         return iqcPlanGroupRepository;
+    }
+
+    @Override
+    public void remove(String id) {
+        IQCPlanGroup group = this.get(id);
+        for (IQCPlan plan : group.getPlans()) {
+            iqcPlanRepository.delete(plan);
+        }
+        super.remove(id);
     }
 }
