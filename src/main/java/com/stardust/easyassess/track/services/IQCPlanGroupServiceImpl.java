@@ -37,8 +37,10 @@ public class IQCPlanGroupServiceImpl extends AbstractEntityService<IQCPlanGroup>
     @Override
     public void remove(String id) {
         IQCPlanGroup group = this.get(id);
-        for (IQCPlan plan : group.getPlans()) {
-            iqcPlanRepository.delete(plan);
+        if (group.getPlans() != null) {
+            for (IQCPlan plan : group.getPlans()) {
+                iqcPlanRepository.delete(plan);
+            }
         }
         super.remove(id);
     }
