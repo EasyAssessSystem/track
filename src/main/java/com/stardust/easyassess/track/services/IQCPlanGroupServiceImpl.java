@@ -42,7 +42,9 @@ public class IQCPlanGroupServiceImpl extends AbstractEntityService<IQCPlanGroup>
         IQCPlanGroup group = this.get(id);
         if (group.getPlans() != null) {
             for (IQCPlan plan : group.getPlans()) {
-                iqcPlanRepository.delete(plan);
+                if (plan != null) {
+                    iqcPlanRepository.delete(plan);
+                }
             }
         }
 
