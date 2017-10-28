@@ -24,4 +24,6 @@ public interface IQCPlanTemplateService extends EntityService<IQCPlanTemplate> {
                                                                         int count,
                                                                         Map<String, String> filters);
 
+
+    void addParticipants(String id, Map<String, String> participants);
 }

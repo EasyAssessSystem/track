@@ -124,4 +124,20 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
         }
         return model;
     }
+
+    @Override
+    public void addParticipants(String id, Map<String, String> participants) {
+        IQCPlanTemplate template = iqcPlanTemplateRepository.findOne(id);
+        if (template != null) {
+            participants.forEach((ownerId, ownerName) -> {
+                if (!template.getParticipants().containsKey(ownerId)) {
+                    template.getParticipants().put(ownerId, ownerName);
+                    IQCPlanGroup group = new IQCPlanGroup();
+                    group.setOwner(new Owner(ownerId, ownerName));
+                    group.setTemplate(template);
+                    iqcPlanGroupRepository.save(group);
+                }
+            });
+        }
+    }
 }

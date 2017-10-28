@@ -148,6 +148,12 @@ public class IQCPlanTemplateController extends MaintenanceController<IQCPlanTemp
     }
 
 
+    @RequestMapping(path="/{id}/participants",
+            method={RequestMethod.POST})
+    public void addParticipants(@PathVariable String id, @RequestBody Map<String, String> participants) throws Exception {
+        ((IQCPlanTemplateService)getService()).addParticipants(id, participants);
+    }
+
     @RequestMapping(path="/{id}/statistic/units",
             method={RequestMethod.POST})
     public void getPlansStatisticData(@PathVariable String id,
