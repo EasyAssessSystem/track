@@ -48,7 +48,9 @@ public class IQCPlanGroupServiceImpl extends AbstractEntityService<IQCPlanGroup>
             }
         }
 
-        group.getTemplate().getParticipants().remove(group.getOwner().getId());
+        if (group.getTemplate().getParticipants() != null) {
+            group.getTemplate().getParticipants().remove(group.getOwner().getId());
+        }
 
         iqcPlanTemplateRepository.save(group.getTemplate());
 
