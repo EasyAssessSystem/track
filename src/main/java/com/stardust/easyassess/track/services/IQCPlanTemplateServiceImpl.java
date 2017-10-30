@@ -50,6 +50,12 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
                 iqcPlanService.remove(plan.getId());
             }
         }
+        List<IQCPlanGroup> groups = iqcPlanGroupRepository.findGroupsByTemplateId(id);
+        if (groups != null) {
+            for (IQCPlanGroup group : groups) {
+                iqcPlanGroupRepository.delete(group.getId());
+            }
+        }
     }
 
 
