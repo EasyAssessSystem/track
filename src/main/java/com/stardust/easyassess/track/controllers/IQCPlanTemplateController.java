@@ -113,7 +113,7 @@ public class IQCPlanTemplateController extends MaintenanceController<IQCPlanTemp
                                     @RequestParam(value = "filterField", defaultValue = "") String field,
                                     @RequestParam(value = "filterValue", defaultValue = "") String value,
                                     @RequestParam(name = "targetDate", defaultValue = "") String targetDate,
-                                    @RequestParam(name = "count", defaultValue = "20") Integer count) throws Exception {
+                                    @RequestParam(name = "count", defaultValue = "30") Integer count) throws Exception {
 
         List<Selection> selections = new ArrayList();
         selections.add(new Selection("template.id", Selection.Operator.EQUAL, id));

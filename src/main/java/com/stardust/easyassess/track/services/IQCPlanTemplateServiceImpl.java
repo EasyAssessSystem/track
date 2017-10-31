@@ -92,7 +92,7 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
             IQCHistorySet result = new IQCHistorySet();
             result.setOwner(plan.getOwner());
             result.setPlanName(plan.getName());
-            result.setTargetRecords(iqcPlanService.getRecords(plan.getId(), targetDate, 20));
+            result.setTargetRecords(iqcPlanService.getRecords(plan.getId(), targetDate, 30));
             results.add(result);
         }
         return results;
