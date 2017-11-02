@@ -144,6 +144,7 @@ public class IQCPlanTemplateServiceImpl extends AbstractEntityService<IQCPlanTem
                     iqcPlanGroupRepository.save(group);
                 }
             });
+            iqcPlanTemplateRepository.save(template);
         }
     }
 }
