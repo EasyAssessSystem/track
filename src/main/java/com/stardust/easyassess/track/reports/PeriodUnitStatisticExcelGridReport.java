@@ -70,7 +70,7 @@ public class PeriodUnitStatisticExcelGridReport extends PeriodStatisticExcelGrid
                     IQCHistoryStatisticData gatherData = gatherDataSet.getItems().get(subject);
                     IQCPlanSpecimen iqcPlanSpecimen = getSpecimen(unitModel.getPlan(), subject, specimen);
                     currentWorksheet.addCell(new Label(1, subjectCursor, subject, labelFormat));
-                    currentWorksheet.addCell(new Label(2, subjectCursor, getSpecimenTargetValue(iqcPlanSpecimen) + " [±" + iqcPlanSpecimen.getFloatValue() + "]", labelFormat));
+                    currentWorksheet.addCell(new Label(2, subjectCursor, unitData.getTargetValue() + " [±" + unitData.getFloatValue() + "]", labelFormat));
                     currentWorksheet.addCell(new Label(3, subjectCursor, unitData.toString(), labelFormat));
                     currentWorksheet.addCell(new Label(4, subjectCursor, "在控:" + unitData.getInControl() + "例, 失控" + unitData.getOutOfControl() + "例", labelFormat));
                     currentWorksheet.addCell(new Label(5, subjectCursor, gatherData.toString(), labelFormat));
