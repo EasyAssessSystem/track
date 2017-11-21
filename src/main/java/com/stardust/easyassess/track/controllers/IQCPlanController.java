@@ -58,6 +58,7 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
             model.setGroup(plan.getGroup());
             model.setTemplate(plan.getTemplate());
             model.setRecords(plan.getRecords());
+            model.setVersion(model.getVersion()+1);
         }
         return super.preUpdate(id, model);
     }
