@@ -181,6 +181,11 @@ public class IQCPlanServiceImpl extends AbstractEntityService<IQCPlan> implement
     }
 
     @Override
+    public void removeRecord(String recordId) {
+        iqcPlanRecordRepository.delete(recordId);
+    }
+
+    @Override
     public List<IQCPlanRecord> getRecord(String planId, Date targetDate)  {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();

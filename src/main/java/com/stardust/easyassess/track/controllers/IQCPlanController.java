@@ -103,6 +103,12 @@ public class IQCPlanController extends MaintenanceController<IQCPlan> {
         return new ViewJSONWrapper(((IQCPlanService)getService()).getTodayRecord(id));
     }
 
+    @RequestMapping(path="/record/{id}",
+            method={RequestMethod.DELETE})
+    public void removeRecord(@PathVariable String id) throws ESAppException, ParseException {
+        ((IQCPlanService)getService()).removeRecord(id);
+    }
+
     @RequestMapping(path="/{id}/record/{date}",
             method={RequestMethod.GET})
     public ViewJSONWrapper getRecordByDate(@PathVariable String id, @PathVariable String date) throws ESAppException, ParseException {
